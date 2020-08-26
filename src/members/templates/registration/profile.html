@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}Profile- @{{ Page_user }}{% endblock title %}
+{% block contant %}
+{% load static %}
+
+    
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        {% if Page_user.Profile_Cover %}
+            <div class="card bg-transparent text-white">
+                <img src="{{ Page_user.Profile_Cover.url }}" class="card-img" style="
+                    width: 1070px;
+                    height: 350px;
+                    margin: 20px;
+                ">
+            </div>
+        {% else %}
+            <div class="card bg-transparent text-white">
+                <img src="{% static 'site_static/img/default-cover-user.png'%}" class="card-img"  style="
+                    width: 1070px;
+                    height: 350px;
+                    margin: 20px;
+                ">
+            </div>     
+        {% endif %}
+        {% if Page_user.profile_pic %}
+            <div class="card-img-overlay">
+                <img src="{{ Page_user.profile_pic.url }}" style="
+                    width: 200px;
+                    height: 200px;
+                    margin: 50px;
+                    margin-top: 210px;
+                    margin-left: -650px;
+                    " class="rounded-circle 
+                ">
+            </div>
+        {% elif Page_user.Gender == "Male" %}
+            <div class="card-img-overlay">
+                <img src="{% static 'site_static/img/default.png'%}" style="
+                    width: 200px;
+                    height: 200px;
+                    margin: 50px;
+                    margin-top: 210px;
+                    margin-left: -650px;
+                    " class="rounded-circle 
+                ">
+            </div>
+        {% elif Page_user.Gender == "Female" %}
+            <div class="card-img-overlay">
+                <img src="{% static 'site_static/img/default_Female.png'%}" style="
+                    width: 200px;
+                    height: 200px;
+                    margin: 50px;
+                    margin-top: 210px;
+                    margin-left: -650px;
+                    " class="rounded-circle 
+                ">
+            </div>
+        {% elif Page_user.Gender == "Other" %}
+            <div class="card-img-overlay">
+                <img src="{% static 'site_static/img/default_Other.png'%}" style="
+                    width: 200px;
+                    height: 200px;
+                    margin: 50px;
+                    margin-top: 210px;
+                    margin-left: -650px;
+                    " class="rounded-circle 
+                ">
+            </div>
+        {% endif %}
+   </div>
+</div>
+
+</br>
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>{{ Page_user }}</h1>
+        <a href="#" class="badge badge-primary fa fa-user-plus"> Add Friend</a>
+        <a href="#" class="badge badge-primary fa fa-comments"> Message</a>
+        <br/><br/>
+        <h6>Bio - {{ Page_user.bio }}</h6>
+        <br/><br/>
+    </div>
+</div>
+
+<div class="card-group bg-transparent text-white">
+    <div class="card bg-transparent">
+        <div class="card-body">
+            <h5 class="card-title">About</h5>
+            <p class="card-text">Country - {{ Page_user.country }}</p>
+            <p class="card-text">Phone Number - {{ Page_user.phone }}</p>
+            {% if user.profile.facebook_url %}
+                <a href="{{ Page_user.facebook_url }}" class="fa fa-facebook"> </a>
+            {% endif %}
+            {% if Page_user.website_url %}
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+            {% endif %}
+             {% if Page_user.twtter_url %}
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            {% endif %}
+            {% if Page_user.instgram_url %}
+                <a href="#"><i class="fa fa-instagram"></i></a>
+            {% endif %}
+            
+        </div>
+    </div>
+
+    <div class="card bg-transparent text-white">
+        <div class="card-body">
+            <h6 class="card-text">Gender - {% if Page_user.Gender == "Male" %} 
+            <i class="fa fa-mars" style="font-size:20px;color: #1C4ACD;"> Male</i>  
+            {% elif Page_user.Gender == "Female" %}
+            <i class="fa fa-venus" style="font-size:20px;color:pink"> Female</i>
+            {% elif Page_user.Gender == "Other" %}
+            <i class="fa fa-intersex" style="font-size:20px;color:yellow"> Other</i>
+            {% endif %}</h6>
+            <p class="card-text">adress - {{ Page_user.address }}</p>
+            <p> Favorite - <span class="badge badge-primary text-white">{{ Page_user.Favorite }}</span></p>
+        </div>
+    </div>
+</div>
+
+<br/><br/> 
+<div class="alert alert-transparent text-white" role="alert">
+posts
+
+{% if user.id == post.auther.id %}
+
+
+{% endif %}
+</div>
+
+</br>
+</br>
+</br> 
+{% endblock contant %}
+
+

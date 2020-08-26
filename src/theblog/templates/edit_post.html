@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Edit Post!{% endblock title %}
+{% block contant %}
+
+{% if user.is_authenticated %}
+        {% if user.id == post.auther.id %}
+        <div class="alart text-primary">
+            <h1>Edit Post...</h1>
+        </div>
+        <br/><br/>
+        <div class="form-group text-primary">
+<form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                
+                <button class="btn btn-outline-primary">Save..</button>
+                <br/><br/>
+        </div>
+    {% else %}
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <div class="alart text-primary">
+            h1>You're not allowed here! (#And you know it....)</h1>
+        </div>
+    {% endif %}
+    {% else %}
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <div class="alart text-primary">
+            <h1>You're not allowed here! (#And you know it....)</h1>
+        </div>
+{% endif %}
+
+{% endblock contant %}

@@ -1,0 +1,91 @@
+    <div class="alert alert-transparent text-light" role="alert">
+        {% if user.id == post.auther.id %}
+            <div class="card-img-overlay">
+                <a href="{% url 'profile' %}"><img src="{{ user.porfile.profile_pic.url }}"style="
+                    width: 60px;
+                    height: 60px;
+                    margin: -110px;
+                    " class="rounded-circle
+                "></a>
+            </div>
+        {% else %}
+            <div class="card-img-overlay">
+                <a href="{% url 'profile' %}"><img src="{% static 'site_static/img/default.png'%}"style="
+                    width: 60px;
+                    height: 60px;
+                    margin: -100px;
+                    margin-top: -100px;
+                    margin-left: -110px;
+                    " class="rounded-circle
+                "></a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="alert alert-transparent text-light" role="alert">
+        <a href="{% url 'profile' %}"><p class = 
+            "alert alert-transparent text-light" 
+            style="margin-left: -65px; margin-top: -65px;">{{ post.auther.first_name }} 
+            {{ post.auther.last_name }}</p>
+        </a>
+
+        <div class="alert alert-transparent text-light" role="alert">
+            <p class="alert alert-transparent text-light" style="margin-left: -95px; margin-top:-75px;"><small class="text-muted"><small>
+                | {{ post.post_date|date:'d M y'}} |- in : 
+                <a href="{% url 'category' post.category|slugify %}">
+                {{post.category}}</a></small></small></p>
+        </div>
+
+        {% if user.id == post.auther.id %}
+            <div class="dropdown">
+                <a class="btn btn-transparent text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style="
+                    margin-left: 1100px;
+                    margin-top: -200px;
+                "></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'edit_post' post.pk %}">Edit</a>
+                    <a class="dropdown-item" href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+
+    <div class="alert alert-transparent text-light" role="alert">
+        <p class = "alert alert-transparent text-light" style="margin-left: -70px; margin-top:-110px;"><strong><a href="{% url 'article-detail' post.pk %}"></strong>
+        <strong class="alert alert-transparent text-light">{{ post.title }}</strong></a></p>
+
+    </div>
+
+
+
+    <div class="alert alert-transparent text-light" role="alert">
+        <h6 class="alert alert-transparent text-light" style="margin-left: -20px; margin-top:-120px;">{{ post.body |slice:"300"|safe }}</h6>
+    </div>
+    <div class="card text-center bg-transparent text-white">
+        <div class="card-body">
+            {% if post.header_image %}
+                <a href="{{ post.header_image.url }}"><img src = "{{ post.header_image.url }}"style="
+                    width: 600px;
+                    height: 500px;
+                    margin-left: -150px;
+                    margin-top: -50px;
+                    "></a>
+            {% endif %}
+        </div>
+    </div>
+        <div class="alert alert-transparent text-light" style="margin-left: 350px; margin-top: -90px;" role="alert">
+           
+                
+                    
+                    
+                    
+                
+                    
+            
+        </div>
+        <div class="alert alert-transparent text-light" role="alert" style="margin-left: -10px; margin-right: 120px; margin-top: -30px;">
+            <span class="badge badge-transparent">{{ post.total_likes }} Likes</span>  
+        </div>  
+    

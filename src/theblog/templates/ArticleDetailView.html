@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}Post of-{{ post.title_tag }} {% endblock title %}
+{% block contant %}
+{% load static %}
+
+{% comment %} {% block title %} {{ post.title_tag }}... {% endblock title %} {% endcomment %}
+
+<br/><br/>
+<div class="card bg-transparent text-white" >
+  <div class="card-body text-light" >
+        {% if post.auther.profile.profile_pic %}
+            <a href="{% url 'profile' post.auther.profile.id %}">
+            <img src="{{ post.auther.profile.profile_pic.url }}" width="50" height="50" class="rounded-circle"></a>
+        {% elif post.auther.profile.Gender == "Male" %}
+            <a href="{% url 'profile' post.auther.profile.id %}">
+            <img src="{% static 'site_static/img/default.png'%}"width="50" height="50" class="rounded-circle"></a>
+        {% elif post.auther.profile.Gender == "Female" %}
+            <a href="{% url 'profile' post.auther.profile.id %}">
+            <img src="{% static 'site_static/img/default_Female.png'%}"width="50" height="50" class="rounded-circle"></a>
+        {% elif post.auther.profile.Gender == "Other" %}
+            <a href="{% url 'profile' post.auther.profile.id %}">
+            <img src="{% static 'site_static/img/default_Other.png'%}"width="50" height="50" class="rounded-circle"></a>
+        {% endif %}
+        <a href="{% url 'profile' post.auther.profile.id %}">
+
+    </div>
+</div>
+<div class="alert alert-transparent text-light" role="alert">
+    <a href="{% url 'profile' post.auther.profile.id %}"><p class = 
+        "alert alert-transparent text-light" 
+        style="margin-left: 35px; margin-top: -110px;">{{ post.auther.first_name }} 
+            {{ post.auther.last_name }}</p>
+    </a>
+    <h6 class="alert-transparent text-muted" style="margin-top: -35px; margin-left: 60px;"><small>
+        | {{ post.post_date|date:'d M y'}} | - in :<a href="{% url 'category' post.category|slugify %}"> {{post.category}}</a></h6></small>
+</div>
+
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>{ {{ post.title_tag }} }</h1>
+    </div>
+</div>
+
+<div class="card text-center bg-transparent text-white">
+    <h6 class="">{ {{ post.title }} }</h6>
+    {% if user.is_authenticated %}
+        {% if user.id == post.auther.id %}
+            <div class="dropdown">
+                <a class="btn btn-transparent text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style=" margin-top: -550px; margin-left: 800px;
+                " ></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'edit_post' post.pk %}">Edit</a>
+                    <a class="dropdown-item" href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+<div class="nn card text-center bg-transparent text-white">
+    {% if post.header_image %}
+        <div class="card-body">
+            <a href="{{ post.header_image.url }}"><img src = "{{ post.header_image.url }}"style="
+                width: 500px;
+                height: 450px;
+                " class="border border-primary rounded-lg"></a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card bg-transparent text-white">
+  <div class="card-body text-light">
+    <h5 class="card-text" style= "font-size:15px;">{{ post.body|safe }}</h5>
+  </div>
+</div>
+
+
+<div class="card bg-transparent text-white">
+      <br/><br/>
+      <form action="{% url 'like_post' post.pk %}" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                {% if liked %} 
+                    <button tybe="submit" name="post_id" value="{{post.id}}" class="btn btn-outline-danger btn-sm">Unlike</button>     
+                {% else %}
+                    <button tybe="submit" name="post_id" value="{{post.id}}" class="btn btn-outline-primary btn-sm">Like</button> 
+                {% endif %}
+            {% else %}
+                <small><a class="" href="{% url 'login' %}">Login to like</a></small>
+                
+            {% endif %}
+            - {{ total_likes }} Likes
+            <br/><br/>    
+        </form>
+                   
+        <div class="alert alert-transparent" role="alert">
+            <h2> Comments..</h2>
+           {% if not post.comments.all %}
+                {% if user.is_authenticated %}
+                    No comments yet...<a href="{% url 'add_comment' post.pk %}">
+                    Add one</a> 
+                {% else %}
+                    <a href="{% url 'login' %}">
+                    You Must be online to comment</a>
+                {% endif %}
+            {% else %}
+                
+                {% for comment in post.comments.all %}
+                    <div class="alert alert-dark" role="alert">
+                        <strong>
+                            {{ comment.name }}
+                            <small>{{ comment.date_added }}</small>
+                        </strong>
+                        <br/>
+                        {{ comment.body }}
+                        <br/><br/>
+                        <small><a href="#" class="badge badge-primary">Reply</a></small>
+                        <small><a href="#" class="badge badge-primary">Like</a></small>
+                    </div> 
+                    
+                    
+                {% endfor %}
+                {% if user.is_authenticated %}
+                   <h4> <a href="{% url 'add_comment' post.pk %}" class="badge badge-primary">Add comment</a></h4>
+                {% else %}
+                    <h4><a href="{% url 'login'%}" class="badge badge-primary">Login to comment</a></h4>
+                {% endif %}
+            {% endif %}
+        </div>
+  
+</div>
+        
+        
+        <br/><br/>
+<a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+<br/><br/>
+<br/><br/>
+
+
+
+
+
+{% endblock %}
+
+
+

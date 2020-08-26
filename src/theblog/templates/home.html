@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block contant %}
+{% load static %}
+
+<div class="card bg-transparent text-white">
+    <div class="card-body" >
+        <body style="background-color:#FFFF;">
+            <h1>Headlines</h1>
+            <form class="form-inline my-2 my-lg-0 bg-transparent" >
+                <input class="form-control mr-sm-2 bg-transparent" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-transparent my-2 my-sm-0 text-light" type="submit">Search</button>
+        </form>
+        </body>
+    </div>
+</div>
+
+    <div class="alert alert-dark"><a href="https://news.google.com/topics/CAAqBwgKMMX_lwsw76ivAw?hl=en-GB&gl=GB&ceid=GB%3Aen"><span class="CLrHye" id="i32">COVID-19 news:</span></a>
+        <span class="bFymCe">See the latest coverage of the coronavirus (COVID-19)</span>
+    </div>
+
+
+<hr>
+
+
+{% for post in object_list %}
+    <div class="alert alert-transparent" role="alert">
+        {% if post.auther.profile.profile_pic %}
+            <div class="alert alert-transparent text-light" role="alert">
+                <a href="{% url 'profile' post.auther.profile.id %}">
+                <img src="{{ post.auther.profile.profile_pic.url }}" style="
+                    width: 60px;
+                    height: 60px;
+                    margin: -100px;
+                    margin-top: -25px;
+                    margin-left: -20px;
+                    " class="rounded-circle
+                "></a>
+            </div>
+        {% elif post.auther.profile.Gender == "Male" %}
+            <div class="alert alert-transparent text-light" role="alert">
+                <a href="{% url 'profile' post.auther.profile.id %}">
+                <img src="{% static 'site_static/img/default.png'%}" style="
+                        width: 60px;
+                        height: 60px;
+                        margin: -100px;
+                        margin-top: -25px;
+                        margin-left: -20px;
+                        " class="rounded-circle
+                    "></a>
+            </div>
+        {% elif post.auther.profile.Gender == "Female" %}
+            <div class="alert alert-transparent text-light" role="alert">
+                <a href="{% url 'profile' post.auther.profile.id %}">
+                <img src="{% static 'site_static/img/default_Female.png'%}" style="
+                        width: 60px;
+                        height: 60px;
+                        margin: -100px;
+                        margin-top: -25px;
+                        margin-left: -20px;
+                        " class="rounded-circle
+                    "></a>
+            </div>
+        {% elif post.auther.profile.Gender == "Other" %}
+            <div class="alert alert-transparent text-light" role="alert">
+                <a href="{% url 'profile' post.auther.profile.id %}">
+                    <img src="{% static 'site_static/img/default_Other.png'%}" style="
+                        width: 60px;
+                        height: 60px;
+                        margin: -100px;
+                        margin-top: -25px;
+                        margin-left: -20px;
+                        " class="rounded-circle
+                    "></a>
+            </div>
+        {% endif %}
+        
+        <div class="alert alert-transparent text-light" role="alert">
+            <a href="{% url 'profile' post.auther.profile.id %}"><p class = 
+                "alert alert-transparent text-light" 
+                style="margin-left: 25px; margin-top: -70px;">{{ post.auther.first_name }} 
+                {{ post.auther.last_name }}</p>
+            </a>
+           <h6 class="alert-transparent text-muted" style="margin-top: -35px; margin-left: 50px;"><small>
+               | {{ post.post_date|date:'d M y'}} | - in :<a href="{% url 'category' post.category|slugify %}"> {{post.category}}</a></h6></small>
+        </div>
+
+
+        <div class="alert alert-transparent text-light" style=
+            "width: 100px; 
+            margin-left: 1000px;
+            margin-top: -100px;" role="alert">
+            {% if user.id == post.auther.id %}
+                <div class="dropdown">
+                    <a class="btn btn-transparent text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" style="
+                    " ></a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'edit_post' post.pk %}">Edit</a>
+                        <a class="dropdown-item" href="{% url 'delete_post' post.pk %}">Delete</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="card text-center bg-transparent text-white">
+            <p class = "alert alert-transparent text-light"><strong><a href="{% url 'article-detail' post.pk %}"></strong>
+            <strong class="card text-center bg-transparent text-white">{{ post.title }}</strong></a></p>
+            <h6 class="alert alert-transparent text-light" style="margin-left: -20px; margin-top: 0px;">{{ post.body |slice:"300"|safe }}</h6>
+        </div>
+        <div class="card text-center bg-transparent text-white">
+            <div class="card-body">
+                {% if post.header_image %}
+                    <a href="{{ post.header_image.url }}"><img src = "{{ post.header_image.url }}" class="border border-primary rounded-lg"
+                        style="
+                        width: 600px;
+                        height: 500px;
+                        "></a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="alert alert-transparent text-light" role="alert">
+            <span class="badge badge-transparent">{{ post.total_likes }} Likes</span>
+             
+        </div>
+    </div>
+{% endfor %}
+{% endblock contant %}
+
+
+

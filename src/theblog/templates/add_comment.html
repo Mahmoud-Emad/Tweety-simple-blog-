@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Add Comment{% endblock title %}
+{% block contant %}
+
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>Add Comment...</h1>
+
+    </div>
+</div>
+
+    <br/><br/>
+    <div class="form-group text-light">
+<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-outline-light">Comment</button>
+    </div>
+</form>
+
+
+{% endblock contant %}

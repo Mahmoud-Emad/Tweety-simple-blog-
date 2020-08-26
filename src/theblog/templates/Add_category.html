@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Category!{% endblock title %}
+{% block contant %}
+
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>Add Category</h1>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+    <br/><br/>
+    <div class="form-group text-light">
+    <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                </br></br>
+                <button class="btn btn-outline-light">Add Category</button>
+        </div>
+    </form>
+{% else %}
+    <div class="card text-center bg-transparent text-white">
+        <div class="card-body">
+        <br/><br/>
+            <h1>You're not allowed here! (#And you know it....)</h1>
+        </div>
+    </div>
+    <br/><br/>
+    <a href="{% url 'home' %}"><button class="btn btn-outline-light">Back</button></a>
+    <a href="{% url 'login' %}"><button class="btn btn-outline-light">Login</button></a>
+    <br/><br/>
+{% endif %}
+
+{% endblock contant %}

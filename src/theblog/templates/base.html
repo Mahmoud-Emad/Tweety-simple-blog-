@@ -1,0 +1,180 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <title>
+        {% block title %}
+        {% if user.is_authenticated %}
+            Home - @{{ user.first_name }}-{{ user.last_name }}
+       {% else %}
+          Home -Tweety
+        {% endif %}
+        {% endblock title %}
+    </title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'site_static/img/a.ico ' %}"/>
+  </head>
+  <body style="background-image: url('{% static 'site_static/img/start-blog.jpg'%}');
+             background-repeat: no-repeat;
+              background-attachment: fixed;
+              background-size: cover;
+           ">
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent" style="background-image: url('{% static 'site_static/img/start-blog.jpg'%}'); ">
+        <a class="navbar-brand fa fa-handshake-o" href="{% url 'home' %}"> Tweety </a>
+        <button class="navbar-toggler" type="button" 
+          data-toggle="collapse" data-target="#navbarSupportedContent" 
+          aria-controls="navbarSupportedContent" aria-expanded="false" 
+          aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            {% if cat_menu %}
+              
+            
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                  {% for item in cat_menu %}
+                  
+                      <a class="dropdown-item" href="{% url 'category' item|slugify %}">{{ item }}</a>
+                  
+                  {% endfor %}
+    
+
+                </div>
+              </li>
+            {% endif %}
+           {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_post' %}">Add Post</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_category' %}">Add Category</a>
+              </li>
+
+
+           {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+            {% endif %} 
+          </ul>
+        </div>
+        
+        {% if user.is_authenticated %}
+          {% if user.profile.id %}
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{ user.first_name }}-{{ user.last_name }}
+                    {% if user.profile.profile_pic %}
+                      <div class="card-img-overlay">
+                        <img src="{{ user.profile.profile_pic.url }}" style="
+                          width: 50px;
+                          height: 50px;
+                          margin: 0px;
+                          margin-top: -30px;
+                          margin-left: -80px;
+                          " class="rounded-circle 
+                        ">
+                      </div>
+                    {% elif user.profile.Gender == "Male" %}
+                      <div class="card-img-overlay">
+                        <img src="{% static 'site_static/img/default.png'%}" style="
+                          width: 50px;
+                          height: 50px;
+                          margin: 0px;
+                          margin-top: -30px;
+                          margin-left: -80px;
+                          " class="rounded-circle 
+                        ">
+                      </div>
+                    {% elif user.profile.Gender == "Female" %}
+                      <div class="card-img-overlay">
+                        <img src="{% static 'site_static/img/default_Female.png'%}" style="
+                          width: 50px;
+                          height: 50px;
+                          margin: 0px;
+                          margin-top: -30px;
+                          margin-left: -80px;
+                          " class="rounded-circle 
+                        ">
+                      </div>
+                    {% elif user.profile.Gender == "Other" %}
+                      <div class="card-img-overlay">
+                        <img src="{% static 'site_static/img/default_Other.png'%}" style="
+                          width: 50px;
+                          height: 50px;
+                          margin: 0px;
+                          margin-top: -30px;
+                          margin-left: -80px;
+                          " class="rounded-circle 
+                        ">
+                      </div>
+                                
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'profile' user.profile.id %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile</a>    
+                    <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Sittings</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              </li>
+            </ul>
+            {% else %}
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false">Create Profile
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                  </div>
+                </li>
+              </ul>
+          {% endif %}
+
+        {% endif %}
+      </nav>
+      
+    <br>    
+    {% comment %} <div class="alert text-primary text-dark" role="alert" style="
+      margin-top: -250px;
+      max-width: 50;
+      height: 500px;
+      background-image: url('{% static 'site_static/img/start-blog.jpg'%}');
+      ">
+    </div> {% endcomment %}
+    <div class="container">
+        {% block contant %}
+        
+        {% endblock contant %} 
+      
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>

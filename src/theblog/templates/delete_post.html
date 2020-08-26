@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Remove To Garbish!{% endblock title %}
+{% block contant %}
+
+
+{% if user.is_authenticated %}
+
+    {% if user.id == post.auther.id %}
+
+        <br/><br/>
+        <div class="alart text-primary">
+            <h1>Delete Post...</h1>
+        </div>
+            <br/><br/>
+            <br/><br/>
+        <div class="alert alert text-light" role="alert">
+        
+            <h1>Delete: {{post.title}}</h1>
+            <h3>Are you sure you want delete you'r post ?!</h3>
+            <br/><br/>
+            <br/><br/>
+        </div>
+            <br/><br/>
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-outline-primary">Yes</button>
+                <a href="{% url 'home' %}" class="btn btn-outline-danger">Nope</a>
+                
+        </div>
+
+    {% else %}
+
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <br/><br/>
+        <h1>You're not allowed here! (#And you know it....)</h1>
+
+    
+    {% endif %} 
+{% else %}
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <h1>You're not allowed here! (#And you know it....)</h1>
+
+{% endif %}
+
+{% endblock contant %}

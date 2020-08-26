@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block contant %}
+{% load static %}
+
+
+
+
+{% if Category_Post %}
+    <div class="card text-center bg-transparent text-white">
+        <div class="card-body">
+            <h1>{ {{ cats }} }</h1>
+        </div>
+    </div>
+    <div class="card bg-transparent text-light">
+    {% for post in Category_Post %}
+        <div class="card bg-transparent text-white" >
+            <div class="card-body text-light" >
+                {% if post.auther.profile.profile_pic %}
+                    <a href="{% url 'profile' post.auther.profile.id %}">
+                    <img src="{{ post.auther.profile.profile_pic.url }}" width="50" height="50" class="rounded-circle"></a>
+                {% elif post.auther.profile.Gender == "Male" %}
+                    <a href="{% url 'profile' post.auther.profile.id %}">
+                    <img src="{% static 'site_static/img/default.png'%}"width="50" height="50" class="rounded-circle"></a>
+                {% elif post.auther.profile.Gender == "Female" %}
+                    <a href="{% url 'profile' post.auther.profile.id %}">
+                    <img src="{% static 'site_static/img/default_Female.png'%}"width="50" height="50" class="rounded-circle"></a>
+                {% elif post.auther.profile.Gender == "Other" %}
+                    <a href="{% url 'profile' post.auther.profile.id %}">
+                    <img src="{% static 'site_static/img/default_Other.png'%}"width="50" height="50" class="rounded-circle"></a>
+                {% endif %}
+                    <a href="{% url 'profile' post.auther.profile.id %}">
+            </div>
+        </div>
+        <div class="alert alert-transparent text-light" role="alert">
+            <a href="{% url 'profile' post.auther.profile.id %}"><p class = 
+                "alert alert-transparent text-light" 
+                style="margin-left: 35px; margin-top: -110px;">{{ post.auther.first_name }} 
+                {{ post.auther.last_name }}</p>
+            </a>
+            <h6 class="alert-transparent text-muted" style="margin-top: -35px; margin-left: 60px;"><small>
+                | {{ post.post_date|date:'d M y'}} | - in :<a href="{% url 'category' post.category|slugify %}"> {{post.category}}</a></h6></small>
+        </div>
+
+        <div class="card text-center bg-transparent text-white">
+            <a href= ""><h5 class="card-title text-light">{{ post.title }}</h5></a>
+        </div>
+        <div class="card text-center bg-transparent text-white">
+            {% if user.is_authenticated %}
+                {% if user.id == post.auther.id %}
+                    <div class="dropdown">
+                        <a class="btn btn-transparent text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" style=" margin-top: -330px; margin-left: 900px;
+                        " ></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{% url 'edit_post' post.pk %}">Edit</a>
+                            <a class="dropdown-item" href="{% url 'delete_post' post.pk %}">Delete</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="card text-center bg-transparent text-white">
+            <p style="color:#888; font-size:15px;">{{ post.body |slice:"300"|safe }}
+            <a href="{% url 'article-detail' post.pk %}" class="badge badge-transparent" >Read more...</a>
+            <br/><br/>
+            {% if post.header_image %}
+                <a href="{{ post.header_image.url }}"><img src = "{{ post.header_image.url }}"style="
+                    width: 500px;
+                    height: 450px;         
+                " class="border border-primary rounded-lg" ></a>
+            {% endif %}
+        </div>
+        <div class="card text-center bg-transparent text-white">
+            <p class="card-text"></p>
+            <span class="badge badge-transparent">{{ post.total_likes }} Likes</span>
+        </div>
+    {% endfor %}
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+        <br/><br/>
+        <br/><br/>         
+    </div>
+</div>
+
+{% else %}
+    <br><br><br>
+    <div class="card text-center bg-transparent text-white">
+        <div class="card-body">
+            <h1>{ Sorry this page is not exist }</h1>
+            <br><br><br>
+            <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock contant %}

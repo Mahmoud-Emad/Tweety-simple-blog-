@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Post of-{{ post.title_tag }} {% endblock title %}
+{% block contant %}
+{% load static %}
+
+{% comment %} {% block title %} {{ post.title_tag }}... {% endblock title %} {% endcomment %}
+
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>{ {{ post.title_tag }} }</h1>
+    </div>
+</div>
+<div class="alert alert-transparent text-light" role="alert" style="margin-left: -350px;">
+    <h6 class="">{ {{ post.title }} }</h6>
+    {% if user.is_authenticated %}
+        {% if user.id == post.auther.id %}
+            <div class="dropdown">
+                <a class="btn btn-transparent text-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" style="
+                    margin-left: 1350px;
+                    margin-top: -250px;
+                "></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'edit_post' post.pk %}">Edit</a>
+                    <a class="dropdown-item" href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+
+
+<div class="card text-center bg-transparent text-white">
+    {% if post.header_image %}
+        <div class="card-body">
+            <a href="{{ post.header_image.url }}"><img src = "{{ post.header_image.url }}"style="
+                width: 400px;
+                height: 400px;
+                "></a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card bg-transparent text-white">
+  <div class="card-body text-light">
+    <h5 class="card-text" style= "font-size:15px;">{{ post.body|safe }}</h5>
+  </div>
+</div>
+
+
+<div class="card bg-transparent text-white">
+  <div class="card-body text-light">
+    <span class="badge badge-BLACK text-light"> by: {{ post.auther.first_name }}-{{ post.auther.last_name }}</span> 
+    <span class="badge badge-BLACK text-light"> Date line: {{ post.post_date|date:'d M y'}}</span>  
+    <span class="badge badge-BLACK text-light">{{post.category}}</span> 
+      <br/><br/>
+      <form action="{% url 'like_post' post.pk %}" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                {% if liked %} 
+                    <button tybe="submit" name="post_id" value="{{post.id}}" class="btn btn-outline-danger btn-sm">Unlike</button>     
+                {% else %}
+                    <button tybe="submit" name="post_id" value="{{post.id}}" class="btn btn-outline-primary btn-sm">Like</button> 
+                {% endif %}
+            {% else %}
+                <small><a class="" href="{% url 'login' %}">Login to like</a></small>
+                
+            {% endif %}
+            - {{ total_likes }} Likes
+            <br/><br/>
+
+        </form>
+        <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+        
+        <br/><br/>
+        <br/><br/>
+        
+  </div>
+</div>
+
+<br/><br/>
+
+<img src="{{ post.auther.profile.profile_pic.url }}">
+
+
+{% endblock %}
+
+
+

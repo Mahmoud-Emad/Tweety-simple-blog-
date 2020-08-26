@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Create A New Post!{% endblock title %}
+{% block contant %}
+
+
+{% if user.is_authenticated %}
+
+
+<div class="card text-center bg-transparent text-white">
+    <div class="card-body">
+        <h1>Add Post...</h1>
+
+    </div>
+</div>
+
+    <br/><br/>
+    <div class="form-group text-light">
+<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button class="btn btn-outline-light">Post</button>
+    </div>
+</form>
+    <script>
+
+        var name = "{{ user.id }}";
+        document.getElementById("bob").value = name;
+            
+
+    </script>
+
+{% else %}
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <div class="alart text-light">
+        <h1>You're not allowed here! (#And you know it....)</h1>
+    
+
+    </div>
+{% endif %}
+
+{% endblock contant %}

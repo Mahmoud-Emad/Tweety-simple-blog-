@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Create new profile{% endblock title %}
+{% block contant %}
+
+
+{% if user.is_authenticated %}
+<div class="alart text-primary">
+    <h1>Create new profile</h1>
+</div>
+    <br/><br/>
+    <div class="form-group text-primary">
+<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-outline-primary">Creat</button>
+    </div>
+</form>
+  
+{% else %}
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <br/><br/>
+    <div class="alart text-primary">
+        <h1>You're not allowed here! (#And you know it....)</h1>
+    
+
+    </div>
+{% endif %}
+
+{% endblock contant %}

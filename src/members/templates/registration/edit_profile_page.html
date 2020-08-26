@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile@{{ user.first_name }}-{{ user.last_name }}{% endblock title %}
+{% block contant %}
+{% load static %}
+
+    
+
+<div class="card text-center bg-transparent text-white">
+    {% if user.is_authenticated %}
+        {% if user.id == profile.user.id %}
+            <div class="card text-center bg-transparent text-white">
+                <div class="card-body">
+                    {% if profile.Profile_Cover %}
+                        <div class="card bg-transparent text-white">
+                            <img src="{{ profile.Profile_Cover.url }}" class="card-img" style="
+                                width: 1100px;
+                                height: 350px;
+                                margin: 20px;
+                                margin-left: -20px;
+                            ">
+                        </div>
+                    {% else %}
+                        <div class="card bg-transparent text-white">
+                            <img src="{% static 'site_static/img/default-cover-user.png'%}" class="card-img"  style="
+                                width: 1100px;
+                                height: 350px;
+                                margin: 20px;
+                                margin-left: -20px;
+                            ">
+                        </div>     
+                    {% endif %}
+                    {% if profile.profile_pic %}
+                        <div class="card-img-overlay">
+                            <img src="{{ profile.profile_pic.url }}" style="
+                                width: 200px;
+                                height: 200px;
+                                margin: 50px;
+                                margin-top: 210px;
+                                margin-left: -650px;
+                                " class="rounded-circle 
+                            ">
+                        </div>
+                    {% elif profile.Gender == "Male" %}
+                        <div class="card-img-overlay">
+                            <img src="{% static 'site_static/img/default.png'%}" style="
+                                width: 200px;
+                                height: 200px;
+                                margin: 50px;
+                                margin-top: 210px;
+                                margin-left: -650px;
+                                " class="rounded-circle 
+                            ">
+                        </div>
+                    {% elif profile.Gender == "Female" %}
+                        <div class="card-img-overlay">
+                            <img src="{% static 'site_static/img/default_Female.png'%}" style="
+                                width: 200px;
+                                height: 200px;
+                                margin: 50px;
+                                margin-top: 210px;
+                                margin-left: -650px;
+                                " class="rounded-circle 
+                            ">
+                        </div>
+                    {% elif profile.Gender == "Other" %}
+                        <div class="card-img-overlay">
+                            <img src="{% static 'site_static/img/default_Other.png'%}" style="
+                                width: 200px;
+                                height: 200px;
+                                margin: 50px;
+                                margin-top: 210px;
+                                margin-left: -650px;
+                                " class="rounded-circle 
+                            ">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card text-center bg-transparent text-white">
+                <div class="card-body">
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                </div>
+            </div>
+                    <br/><br/>
+            <div class="card text-center bg-transparent text-white">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br/><br/>
+                    <button class="btn btn-outline-light">Save</button>
+                    <br/><br/>
+                    <br/><br/>
+                </form>
+            </div>
+            
+        {% else %}
+            <br/><br/>
+            <div class="card text-center bg-transparent text-white">
+                <div class="card-body">
+                    <h1>You're not the same user to edit you'r profile</h1>
+                    <br/><br/>
+                    <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <br/><br/>
+        <div class="card text-center bg-transparent text-white">
+            <div class="card-body">
+                <h1>You're not allowed here! (#And you know it....)</h1>
+                <br/><br/>
+                <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back</a>
+            </div>
+        </div> 
+    {% endif %}
+</div>
+{% endblock contant %}
